@@ -1,0 +1,28 @@
+{{define "content"}}
+<p><a class="btn primary" href="/clinicians/new">New Clinician</a></p>
+<table>
+  <thead>
+    <tr><th>Name</th><th>Credentials</th><th>NPI</th><th>Phone</th><th>Email</th><th></th></tr>
+  </thead>
+  <tbody>
+    {{range .Data}}
+    <tr>
+      <td><a href="/clinicians/{{.ID}}">{{.FirstName}} {{.LastName}}</a></td>
+      <td>{{.Credentials}}</td>
+      <td>{{.NPI}}</td>
+      <td>{{.Phone}}</td>
+      <td>{{.Email}}</td>
+      <td class="actions">
+        <a class="btn" href="/clinicians/{{.ID}}">Clients</a>
+        <a class="btn" href="/clinicians/{{.ID}}/edit">Edit</a>
+        <button class="btn danger" hx-delete="/clinicians/{{.ID}}"
+                hx-target="closest tr" hx-swap="outerHTML swap:0.15s"
+                hx-confirm="Delete {{.FirstName}} {{.LastName}}?">Delete</button>
+      </td>
+    </tr>
+    {{else}}
+    <tr><td colspan="6">No clinicians yet.</td></tr>
+    {{end}}
+  </tbody>
+</table>
+{{end}}

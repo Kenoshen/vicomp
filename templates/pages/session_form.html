@@ -1,0 +1,26 @@
+{{define "content"}}
+{{$clients := .Data.Clients}}
+{{with .Data.Session}}
+<form method="post" action="{{if .ID}}/sessions/{{.ID}}{{else}}/sessions{{end}}" class="stack">
+  <label>Client
+    <select name="client_id" required>
+      <option value="">— select —</option>
+      {{range $clients}}
+      <option value="{{.ID}}" {{if eq .ID $.Data.Session.ClientID}}selected{{end}}>{{.FirstName}} {{.LastName}}</option>
+      {{end}}
+    </select>
+  </label>
+  <div class="row">
+    <label>Date <input name="session_date" type="date" value="{{date .SessionDate}}" required></label>
+    <label>Minutes <input name="duration_minutes" type="number" min="0" value="{{.DurationMinutes}}"></label>
+    <label>Amount <input name="amount" type="number" step="0.01" min="0" value="{{printf "%.2f" .Amount}}" required></label>
+    <label>CPT code <input name="cpt_code" value="{{.CPTCode}}" placeholder="90834"></label>
+  </div>
+  <label>Notes <textarea name="notes" rows="3">{{.Notes}}</textarea></label>
+  <div class="actions">
+    <button class="btn primary" type="submit">Save</button>
+    <a class="btn" href="/sessions">Cancel</a>
+  </div>
+</form>
+{{end}}
+{{end}}

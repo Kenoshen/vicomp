@@ -1,0 +1,31 @@
+{{define "content"}}
+{{with .Data}}
+<div class="detail">
+  <p>
+    {{with .Clinician}}
+    {{.Credentials}}{{if .Credentials}} · {{end}}{{.Phone}} · {{.Email}}<br>
+    {{.Address}} {{.City}} {{.State}} {{.Zip}}<br>
+    NPI {{.NPI}} · Tax ID {{.TaxID}}
+    {{end}}
+  </p>
+  <p><a class="btn" href="/clinicians/{{.Clinician.ID}}/edit">Edit clinician</a></p>
+</div>
+
+<h2>Clients</h2>
+<table>
+  <thead><tr><th>Name</th><th>County</th><th>Claim #</th><th></th></tr></thead>
+  <tbody>
+    {{range .Clients}}
+    <tr>
+      <td>{{.FirstName}} {{.LastName}}</td>
+      <td>{{.CountyName}}</td>
+      <td>{{.ClaimNumber}}</td>
+      <td class="actions"><a class="btn" href="/clients/{{.ID}}/edit">Edit</a></td>
+    </tr>
+    {{else}}
+    <tr><td colspan="4">No clients assigned to this clinician.</td></tr>
+    {{end}}
+  </tbody>
+</table>
+{{end}}
+{{end}}

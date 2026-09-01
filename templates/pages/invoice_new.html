@@ -1,0 +1,39 @@
+{{define "content"}}
+<form method="post" action="/invoices" class="stack">
+  <label>Client
+    <select name="client_id" required
+            hx-get="/invoices/preview" hx-target="#preview" hx-trigger="change">
+      <option value="">— select —</option>
+      {{range .Data}}
+      <option value="{{.ID}}">{{.FirstName}} {{.LastName}}</option>
+      {{end}}
+    </select>
+  </label>
+
+  <div id="preview"></div>
+
+  <div class="actions">
+    <button class="btn primary" type="submit">Generate Invoice</button>
+    <a class="btn" href="/invoices">Cancel</a>
+  </div>
+</form>
+{{end}}
+
+{{define "invoice_preview"}}
+{{if .}}
+{{if .Sessions}}
+<table>
+  <thead><tr><th>Date</th><th>Minutes</th><th>Amount</th></tr></thead>
+  <tbody>
+    {{range .Sessions}}
+    <tr><td>{{date .SessionDate}}</td><td>{{.DurationMinutes}}</td><td>{{money .Amount}}</td></tr>
+    {{end}}
+  </tbody>
+  <tfoot><tr><th colspan="2">Total</th><th>{{money .Total}}</th></tr></tfoot>
+</table>
+<p class="muted">{{len .Sessions}} uninvoiced session(s) will be included.</p>
+{{else}}
+<p class="flash">This client has no uninvoiced sessions.</p>
+{{end}}
+{{end}}
+{{end}}

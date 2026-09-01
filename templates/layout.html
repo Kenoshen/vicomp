@@ -1,0 +1,28 @@
+{{define "layout"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ViComp — {{.Title}}</title>
+  <script src="https://unpkg.com/htmx.org@1.9.12"></script>
+  <link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+  <header>
+    <a class="brand" href="/">ViComp</a>
+    <nav>
+      <a href="/counties">Counties</a>
+      <a href="/clinicians">Clinicians</a>
+      <a href="/clients">Clients</a>
+      <a href="/sessions">Sessions</a>
+      <a href="/invoices">Invoices</a>
+      <a href="/settings">Settings</a>
+    </nav>
+  </header>
+  <main>
+    <h1>{{.Title}}</h1>
+    {{if .Error}}<div class="flash error">{{.Error}}</div>{{end}}
+    {{template "content" .}}
+  </main>
+</body>
+</html>{{end}}

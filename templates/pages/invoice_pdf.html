@@ -1,0 +1,99 @@
+{{define "invoice_pdf"}}<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  * { box-sizing: border-box; }
+  body { font: 12px/1.5 "Helvetica Neue", Arial, sans-serif; color: #1a1a1a; margin: 0; }
+  .sheet { padding: 8px 4px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .meta { color: #555; margin-bottom: 24px; }
+  .cols { display: flex; justify-content: space-between; gap: 32px; margin-bottom: 24px; }
+  .cols h2 { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: #777; margin: 0 0 4px; }
+  .cols p { margin: 0; }
+  table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #ddd; }
+  th { background: #f4f4f4; font-size: 10px; text-transform: uppercase; letter-spacing: .05em; }
+  td.amount, th.amount { text-align: right; }
+  tfoot td { font-weight: 700; border-top: 2px solid #333; border-bottom: none; }
+  .total-label { text-align: right; }
+  .payable { margin-top: 28px; padding-top: 10px; border-top: 1px solid #ddd; color: #333; }
+</style>
+</head>
+<body>
+{{with .}}
+<div class="sheet">
+  <h1>Invoice</h1>
+  <div class="meta">
+    {{.Invoice.InvoiceNumber}} &nbsp;·&nbsp; Date: {{date .Invoice.CreatedAt}}
+  </div>
+
+  <div class="cols">
+    <div>
+      <h2>From</h2>
+      <p>
+        {{with .From}}
+        {{if .PracticeName}}<strong>{{.PracticeName}}</strong><br>{{end}}
+        {{if .ClinicianName}}{{.ClinicianName}}<br>{{end}}
+        {{if .Address}}{{.Address}}<br>{{end}}
+        {{if or .City .State .Zip}}{{.City}}{{if and .City (or .State .Zip)}}, {{end}}{{.State}} {{.Zip}}<br>{{end}}
+        {{if .Phone}}Phone: {{.Phone}}<br>{{end}}
+        {{if .Email}}Email: {{.Email}}<br>{{end}}
+        {{if .NPI}}NPI: {{.NPI}}<br>{{end}}
+        {{if .TaxID}}Tax ID: {{.TaxID}}{{end}}
+        {{end}}
+      </p>
+    </div>
+    <div>
+      <h2>Bill To (County)</h2>
+      <p>
+        {{with .County}}
+        {{.Name}}<br>
+        {{if .ContactName}}Attn: {{.ContactName}}<br>{{end}}
+        {{.Address}}<br>
+        {{.City}}{{if .City}}, {{end}}{{.State}} {{.Zip}}<br>
+        {{if .Phone}}Phone: {{.Phone}}<br>{{end}}
+        {{if .Email}}Email: {{.Email}}{{end}}
+        {{end}}
+      </p>
+    </div>
+    <div>
+      <h2>Client</h2>
+      <p>
+        {{.Client.FirstName}} {{.Client.LastName}}<br>
+        {{if .Client.DateOfBirth}}DOB: {{datep .Client.DateOfBirth}}<br>{{end}}
+        {{if .Client.ClaimNumber}}Claim #: {{.Client.ClaimNumber}}{{end}}
+      </p>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Date</th><th>CPT</th><th>Description</th><th>Minutes</th><th class="amount">Amount</th></tr>
+    </thead>
+    <tbody>
+      {{range .Sessions}}
+      <tr>
+        <td>{{date .SessionDate}}</td>
+        <td>{{.CPTCode}}</td>
+        <td>{{if .Notes}}{{.Notes}}{{else}}Counseling session{{end}}</td>
+        <td>{{.DurationMinutes}}</td>
+        <td class="amount">{{money .Amount}}</td>
+      </tr>
+      {{end}}
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="4" class="total-label">Total Due</td>
+        <td class="amount">{{money .Total}}</td>
+      </tr>
+    </tfoot>
+  </table>
+
+  {{if .Settings.MakeChecksPayableTo}}
+  <p class="payable">Make checks payable to: <strong>{{.Settings.MakeChecksPayableTo}}</strong></p>
+  {{end}}
+</div>
+{{end}}
+</body>
+</html>{{end}}

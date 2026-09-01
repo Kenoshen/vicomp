@@ -1,0 +1,28 @@
+{{define "content"}}
+<p><a class="btn primary" href="/invoices/new">New Invoice</a></p>
+<table>
+  <thead>
+    <tr><th>Number</th><th>Client</th><th>Created</th><th>Status</th><th>Total</th><th></th></tr>
+  </thead>
+  <tbody>
+    {{range .Data}}
+    <tr>
+      <td><a href="/invoices/{{.ID}}">{{.InvoiceNumber}}</a></td>
+      <td>{{.ClientName}}</td>
+      <td>{{date .CreatedAt}}</td>
+      <td>{{.Status}}</td>
+      <td>{{money .Total}}</td>
+      <td class="actions">
+        <a class="btn" href="/invoices/{{.ID}}">View</a>
+        <a class="btn" href="/invoices/{{.ID}}/pdf">PDF</a>
+        <button class="btn danger" hx-delete="/invoices/{{.ID}}"
+                hx-target="closest tr" hx-swap="outerHTML swap:0.15s"
+                hx-confirm="Delete {{.InvoiceNumber}}? Its sessions become uninvoiced again.">Delete</button>
+      </td>
+    </tr>
+    {{else}}
+    <tr><td colspan="6">No invoices yet.</td></tr>
+    {{end}}
+  </tbody>
+</table>
+{{end}}

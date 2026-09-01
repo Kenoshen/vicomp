@@ -1,0 +1,20 @@
+{{define "content"}}
+{{with .Data}}
+<form method="post" action="{{if .ID}}/counties/{{.ID}}{{else}}/counties{{end}}" class="stack">
+  <label>Name <input name="name" value="{{.Name}}" required></label>
+  <label>Contact name <input name="contact_name" value="{{.ContactName}}"></label>
+  <label>Address <input name="address" value="{{.Address}}"></label>
+  <div class="row">
+    <label>City <input name="city" value="{{.City}}"></label>
+    <label>State <input name="state" value="{{.State}}" maxlength="2"></label>
+    <label>ZIP <input name="zip" value="{{.Zip}}"></label>
+  </div>
+  <label>Phone <input name="phone" value="{{.Phone}}"></label>
+  <label>Email <input name="email" type="email" value="{{.Email}}"></label>
+  <div class="actions">
+    <button class="btn primary" type="submit">Save</button>
+    <a class="btn" href="/counties">Cancel</a>
+  </div>
+</form>
+{{end}}
+{{end}}

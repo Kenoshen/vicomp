@@ -1,0 +1,26 @@
+{{define "content"}}
+<p><a class="btn primary" href="/clients/new">New Client</a></p>
+<table>
+  <thead>
+    <tr><th>Name</th><th>County</th><th>Clinician</th><th>Claim #</th><th></th></tr>
+  </thead>
+  <tbody>
+    {{range .Data}}
+    <tr>
+      <td>{{.FirstName}} {{.LastName}}</td>
+      <td>{{.CountyName}}</td>
+      <td>{{.ClinicianName}}</td>
+      <td>{{.ClaimNumber}}</td>
+      <td class="actions">
+        <a class="btn" href="/clients/{{.ID}}/edit">Edit</a>
+        <button class="btn danger" hx-delete="/clients/{{.ID}}"
+                hx-target="closest tr" hx-swap="outerHTML swap:0.15s"
+                hx-confirm="Delete {{.FirstName}} {{.LastName}}? This removes their sessions and invoices.">Delete</button>
+      </td>
+    </tr>
+    {{else}}
+    <tr><td colspan="5">No clients yet.</td></tr>
+    {{end}}
+  </tbody>
+</table>
+{{end}}

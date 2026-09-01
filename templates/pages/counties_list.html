@@ -1,0 +1,28 @@
+{{define "content"}}
+<p><a class="btn primary" href="/counties/new">New County</a></p>
+<table>
+  <thead>
+    <tr><th>Name</th><th>Contact</th><th>City</th><th>State</th><th>Phone</th><th>Email</th><th></th></tr>
+  </thead>
+  <tbody>
+    {{range .Data}}
+    <tr>
+      <td>{{.Name}}</td>
+      <td>{{.ContactName}}</td>
+      <td>{{.City}}</td>
+      <td>{{.State}}</td>
+      <td>{{.Phone}}</td>
+      <td>{{.Email}}</td>
+      <td class="actions">
+        <a class="btn" href="/counties/{{.ID}}/edit">Edit</a>
+        <button class="btn danger" hx-delete="/counties/{{.ID}}"
+                hx-target="closest tr" hx-swap="outerHTML swap:0.15s"
+                hx-confirm="Delete {{.Name}}?">Delete</button>
+      </td>
+    </tr>
+    {{else}}
+    <tr><td colspan="7">No counties yet.</td></tr>
+    {{end}}
+  </tbody>
+</table>
+{{end}}

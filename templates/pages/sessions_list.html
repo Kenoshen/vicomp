@@ -1,0 +1,34 @@
+{{define "content"}}
+<p><a class="btn primary" href="/sessions/new">New Session</a></p>
+<table>
+  <thead>
+    <tr><th>Date</th><th>Client</th><th>CPT</th><th>Minutes</th><th>Amount</th><th>Invoiced</th><th></th></tr>
+  </thead>
+  <tbody>
+    {{range .Data}}
+    <tr>
+      <td>{{date .SessionDate}}</td>
+      <td>{{.ClientName}}</td>
+      <td>{{.CPTCode}}</td>
+      <td>{{.DurationMinutes}}</td>
+      <td>{{money .Amount}}</td>
+      <td>
+        {{if .InvoiceID}}<a href="/invoices/{{.InvoiceID}}">#{{.InvoiceID}}</a>{{else}}<span class="muted">no</span>{{end}}
+      </td>
+      <td class="actions">
+        {{if .InvoiceID}}
+        <span class="muted">locked</span>
+        {{else}}
+        <a class="btn" href="/sessions/{{.ID}}/edit">Edit</a>
+        <button class="btn danger" hx-delete="/sessions/{{.ID}}"
+                hx-target="closest tr" hx-swap="outerHTML swap:0.15s"
+                hx-confirm="Delete this session?">Delete</button>
+        {{end}}
+      </td>
+    </tr>
+    {{else}}
+    <tr><td colspan="7">No sessions yet.</td></tr>
+    {{end}}
+  </tbody>
+</table>
+{{end}}

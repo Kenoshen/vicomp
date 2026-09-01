@@ -1,0 +1,53 @@
+{{define "content"}}
+{{with .Data}}
+<form method="post" action="/settings" class="stack">
+  <h2>Practice / billing details</h2>
+  <p class="hint">The invoice "From" block. A clinician with their own value for any
+    of these fields overrides it on their invoices; blank clinician fields fall back here.</p>
+  <label>Practice name
+    <input name="practice_name" value="{{.PracticeName}}" placeholder="Rivera Counseling LLC">
+  </label>
+  <label>Address <input name="address" value="{{.Address}}"></label>
+  <div class="row">
+    <label>City <input name="city" value="{{.City}}"></label>
+    <label>State <input name="state" value="{{.State}}" maxlength="2"></label>
+    <label>ZIP <input name="zip" value="{{.Zip}}"></label>
+  </div>
+  <div class="row">
+    <label>Phone <input name="phone" value="{{.Phone}}"></label>
+    <label>Email <input name="email" type="email" value="{{.Email}}"></label>
+  </div>
+  <div class="row">
+    <label>Tax ID <input name="tax_id" value="{{.TaxID}}"></label>
+    <label>NPI <input name="npi" value="{{.NPI}}"></label>
+  </div>
+
+  <h2>Invoice footer</h2>
+  <label>Make checks payable to
+    <input name="make_checks_payable_to" value="{{.MakeChecksPayableTo}}"
+           placeholder="Rivera Counseling LLC">
+    <span class="hint">Shown in the footer of every invoice PDF.</span>
+  </label>
+
+  <h2>Session defaults</h2>
+  <p class="hint">Used to pre-fill a new session. Every value can still be changed per session.</p>
+  <div class="row">
+    <label>Default rate
+      <input name="default_session_rate" type="number" step="0.01" min="0"
+             value="{{printf "%.2f" .DefaultSessionRate}}">
+    </label>
+    <label>Default length (minutes)
+      <input name="default_session_minutes" type="number" min="0"
+             value="{{.DefaultSessionMinutes}}">
+    </label>
+    <label>Default CPT code
+      <input name="default_cpt_code" value="{{.DefaultCPTCode}}" placeholder="90834">
+    </label>
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" type="submit">Save settings</button>
+  </div>
+</form>
+{{end}}
+{{end}}

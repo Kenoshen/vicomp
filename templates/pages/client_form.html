@@ -1,0 +1,37 @@
+{{define "content"}}
+{{$counties := .Data.Counties}}
+{{$clinicians := .Data.Clinicians}}
+{{with .Data.Client}}
+<form method="post" action="{{if .ID}}/clients/{{.ID}}{{else}}/clients{{end}}" class="stack">
+  <div class="row">
+    <label>First name <input name="first_name" value="{{.FirstName}}" required></label>
+    <label>Last name <input name="last_name" value="{{.LastName}}" required></label>
+    <label>Date of birth <input name="date_of_birth" type="date" value="{{datep .DateOfBirth}}"></label>
+  </div>
+  <div class="row">
+    <label>County
+      <select name="county_id">
+        <option value="">— none —</option>
+        {{range $counties}}
+        <option value="{{.ID}}" {{if and $.Data.Client.CountyID (eq (deref $.Data.Client.CountyID) .ID)}}selected{{end}}>{{.Name}}</option>
+        {{end}}
+      </select>
+    </label>
+    <label>Clinician
+      <select name="clinician_id">
+        <option value="">— none —</option>
+        {{range $clinicians}}
+        <option value="{{.ID}}" {{if and $.Data.Client.ClinicianID (eq (deref $.Data.Client.ClinicianID) .ID)}}selected{{end}}>{{.FirstName}} {{.LastName}}</option>
+        {{end}}
+      </select>
+    </label>
+  </div>
+  <label>Claim number <input name="claim_number" value="{{.ClaimNumber}}"></label>
+  <label>Notes <textarea name="notes" rows="3">{{.Notes}}</textarea></label>
+  <div class="actions">
+    <button class="btn primary" type="submit">Save</button>
+    <a class="btn" href="/clients">Cancel</a>
+  </div>
+</form>
+{{end}}
+{{end}}

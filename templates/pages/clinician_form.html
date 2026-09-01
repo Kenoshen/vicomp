@@ -1,0 +1,29 @@
+{{define "content"}}
+{{with .Data}}
+<form method="post" action="{{if .ID}}/clinicians/{{.ID}}{{else}}/clinicians{{end}}" class="stack">
+  <div class="row">
+    <label>First name <input name="first_name" value="{{.FirstName}}" required></label>
+    <label>Last name <input name="last_name" value="{{.LastName}}" required></label>
+    <label>Credentials <input name="credentials" value="{{.Credentials}}" placeholder="LCSW"></label>
+  </div>
+  <div class="row">
+    <label>NPI <input name="npi" value="{{.NPI}}"></label>
+    <label>Tax ID <input name="tax_id" value="{{.TaxID}}"></label>
+  </div>
+  <label>Address <input name="address" value="{{.Address}}"></label>
+  <div class="row">
+    <label>City <input name="city" value="{{.City}}"></label>
+    <label>State <input name="state" value="{{.State}}" maxlength="2"></label>
+    <label>ZIP <input name="zip" value="{{.Zip}}"></label>
+  </div>
+  <div class="row">
+    <label>Phone <input name="phone" value="{{.Phone}}"></label>
+    <label>Email <input name="email" type="email" value="{{.Email}}"></label>
+  </div>
+  <div class="actions">
+    <button class="btn primary" type="submit">Save</button>
+    <a class="btn" href="/clinicians">Cancel</a>
+  </div>
+</form>
+{{end}}
+{{end}}
