@@ -1,10 +1,47 @@
 :root {
+  color-scheme: light dark;
+
+  --bg: #ffffff;
+  --surface: #ffffff;
+  --bg-soft: #f6f7f9;
   --fg: #1a1a1a;
   --muted: #6b7280;
   --border: #d8dbe0;
+
+  /* --accent: text/links (needs contrast on --bg).
+     --accent-solid: filled-button background, pairs with --on-accent. */
   --accent: #2563eb;
+  --accent-solid: #2563eb;
   --danger: #dc2626;
-  --bg-soft: #f6f7f9;
+  --danger-solid: #dc2626;
+  --on-accent: #ffffff;
+
+  --flash-bg: #fef3c7;
+  --flash-fg: #1a1a1a;
+  --flash-error-bg: #fee2e2;
+  --flash-error-fg: #991b1b;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #14161a;
+    --surface: #1b1e24;
+    --bg-soft: #1b1e24;
+    --fg: #e6e8eb;
+    --muted: #9aa4b2;
+    --border: #2b303a;
+
+    --accent: #7ab0ff;
+    --accent-solid: #2f6fed;
+    --danger: #f87171;
+    --danger-solid: #dc2626;
+    --on-accent: #ffffff;
+
+    --flash-bg: #39310f;
+    --flash-fg: #f2e6c7;
+    --flash-error-bg: #3a1d1d;
+    --flash-error-fg: #f6b9b9;
+  }
 }
 
 * { box-sizing: border-box; }
@@ -13,7 +50,7 @@ body {
   margin: 0;
   font: 15px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   color: var(--fg);
-  background: #fff;
+  background: var(--bg);
 }
 
 header {
@@ -33,8 +70,8 @@ main { max-width: 960px; margin: 0 auto; padding: 24px; }
 
 h1 { margin-top: 0; }
 
-.flash { padding: 10px 14px; border-radius: 6px; background: #fef3c7; margin-bottom: 16px; }
-.flash.error { background: #fee2e2; color: #991b1b; }
+.flash { padding: 10px 14px; border-radius: 6px; background: var(--flash-bg); color: var(--flash-fg); margin-bottom: 16px; }
+.flash.error { background: var(--flash-error-bg); color: var(--flash-error-fg); }
 
 table { width: 100%; border-collapse: collapse; margin: 12px 0; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
@@ -48,16 +85,16 @@ tfoot th, tfoot td { border-top: 2px solid var(--fg); border-bottom: none; }
   padding: 5px 12px;
   border: 1px solid var(--border);
   border-radius: 6px;
-  background: #fff;
+  background: var(--surface);
   color: var(--fg);
   text-decoration: none;
   font-size: 14px;
   cursor: pointer;
 }
 .btn:hover { background: var(--bg-soft); }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary { background: var(--accent-solid); border-color: var(--accent-solid); color: var(--on-accent); }
 .btn.danger { border-color: var(--danger); color: var(--danger); }
-.btn.danger:hover { background: var(--danger); color: #fff; }
+.btn.danger:hover { background: var(--danger-solid); border-color: var(--danger-solid); color: var(--on-accent); }
 
 td.actions, .actions { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
 
@@ -69,6 +106,7 @@ form.stack input, form.stack select, form.stack textarea {
   border-radius: 6px;
   font: inherit;
   color: var(--fg);
+  background: var(--surface);
 }
 form.stack .hint { font-size: 12px; color: var(--muted); font-weight: normal; }
 form.stack h2 { font-size: 15px; margin: 8px 0 0; color: var(--fg); }
