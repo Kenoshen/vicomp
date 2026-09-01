@@ -33,6 +33,12 @@ services:
       LISTEN_ADDR: ":8080"
     ports:
       - "8090:8080"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:8080/healthz"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 20s
     # Source is bind-mounted so `air` rebuilds on save. The module cache is a
     # named volume so restarts stay fast.
     volumes:

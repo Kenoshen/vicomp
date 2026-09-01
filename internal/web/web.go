@@ -105,6 +105,10 @@ func (s *Server) Routes() http.Handler {
 
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir(s.staticDir))))
 
+	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
+		w.WriteHeader(http.StatusOK)
+	})
+
 	mux.HandleFunc("GET /{$}", s.handleIndex)
 
 	// Settings (singleton)
